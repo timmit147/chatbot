@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat with n8n</title>
-  <!-- Favicon placeholder -->
   <link rel="icon" href="favicon.ico">
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
@@ -30,15 +29,15 @@
   const form = document.getElementById('inputForm');
   const input = document.getElementById('messageInput');
 
-  // Use your new HTTPS n8n webhook here
-  const webhookUrl = "https://136.112.226.183:5678/webhook/ff93fb29-77d6-4573-b702-4e2f2dd1a084";
+  // Use your domain instead of raw IP
+  const webhookUrl = "https://timmeeuwsen.nl/webhook/ff93fb29-77d6-4573-b702-4e2f2dd1a084";
 
   function addMessage(text, sender) {
     const div = document.createElement('div');
     div.classList.add('message', sender);
     div.textContent = text;
     chatDiv.appendChild(div);
-    chatDiv.scrollTop = chatDiv.scrollHeight; // Auto scroll
+    chatDiv.scrollTop = chatDiv.scrollHeight;
   }
 
   form.addEventListener('submit', async (e) => {
@@ -56,13 +55,12 @@
         body: JSON.stringify({ message })
       });
 
-      // Handle plain text or JSON response
       let data;
       const text = await response.text();
       try {
         data = JSON.parse(text);
       } catch {
-        data = { reply: text }; // wrap plain text as reply
+        data = { reply: text };
       }
 
       addMessage(data.reply || "No reply from webhook", 'bot');
